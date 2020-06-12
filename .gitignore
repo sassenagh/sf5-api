@@ -13,4 +13,5 @@
 .env.local
 .DS_Store
 .docker-sync
+config/jwt
 ###< Other files ###
