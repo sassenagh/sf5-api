@@ -15,4 +15,5 @@
 .docker-sync
 config/jwt
 .php_cs.cache
+bin/.phpunit/
 ###< Other files ###

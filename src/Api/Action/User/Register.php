@@ -8,33 +8,24 @@ use App\Api\Action\RequestTransformer;
 use App\Entity\User;
 use App\Exception\User\UserAlreadyExistException;
 use App\Repository\UserRepository;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\Password\EncoderService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class Register
 {
     private UserRepository $userRepository;
+    private EncoderService $encoderService;
 
-    private JWTTokenManagerInterface $JWTTokenManager;
-
-    private EncoderFactoryInterface $encoderFactory;
-
-    public function __construct(UserRepository $userRepository, JWTTokenManagerInterface $JWTTokenManager, EncoderFactoryInterface $encoderFactory)
+    public function __construct(UserRepository $userRepository, EncoderService $encoderService)
     {
         $this->userRepository = $userRepository;
-        $this->JWTTokenManager = $JWTTokenManager;
-        $this->encoderFactory = $encoderFactory;
+        $this->encoderService = $encoderService;
     }
 
     /**
-     * @Route("/users/register", methods={"POST"})
-     *
      * @throws \Exception
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request): User
     {
         $name = RequestTransformer::getRequiredField($request, 'name');
         $email = RequestTransformer::getRequiredField($request, 'email');
@@ -46,15 +37,10 @@ class Register
         }
 
         $user = new User($name, $email);
-
-        $encoder = $this->encoderFactory->getEncoder($user);
-
-        $user->setPassword($encoder->encodePassword($password, null));
+        $user->setPassword($this->encoderService->generateEncodedPasswordForUser($user, $password));
 
         $this->userRepository->save($user);
 
-        $jwt = $this->JWTTokenManager->create($user);
-
-        return new JsonResponse(['token' => $jwt]);
+        return $user;
     }
 }
