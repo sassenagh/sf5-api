@@ -8,6 +8,7 @@
     "ext-ctype": "*",
     "ext-iconv": "*",
     "ext-json": "*",
+    "api-platform/api-pack": "^1.2",
     "doctrine/doctrine-migrations-bundle": "^2.1",
     "lexik/jwt-authentication-bundle": "^2.7",
     "ramsey/uuid-doctrine": "^1.6",
