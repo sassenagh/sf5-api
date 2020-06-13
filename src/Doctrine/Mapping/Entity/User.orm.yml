@@ -1,0 +1,30 @@
+App\Entity\User:
+  type: entity
+  table: user
+
+  id:
+    id:
+      type: string
+
+  fields:
+    name:
+      type: string
+      nullable: false
+    email:
+      type: string
+      nullable: false
+    password:
+      type: string
+      nullable: false
+    roles:
+      type: simple_array
+      nullable: false
+    createdAt:
+      type: datetime
+      nullable: false
+    updatedAt:
+      type: datetime
+      nullable: false
+
+  lifecycleCallbacks:
+    preUpdate: [markAsUpdated]
