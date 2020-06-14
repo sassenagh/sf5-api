@@ -21,12 +21,12 @@ class User implements UserInterface
 
     protected array $roles;
 
-    protected \DateTime $createdAt;
+    protected ?\DateTime $createdAt = null;
 
-    protected \DateTime $updatedAt;
+    protected ?\DateTime $updatedAt = null;
 
     /** @var Collection|Group[] */
-    protected Collection $groups;
+    protected ?Collection $groups = null;
 
     /**
      * @throws \Exception

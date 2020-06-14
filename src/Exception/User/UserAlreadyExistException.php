@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class UserAlreadyExistException extends BadRequestHttpException
 {
-    private const MESSAGE = 'User with email %s already exists';
+    private const MESSAGE = 'User with email %s already exist';
 
     public static function fromUserEmail(string $email): self
     {
