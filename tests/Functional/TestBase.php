@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Hautelook\AliceBundle\PhpUnit\RecreateDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class TestBase extends WebTestCase
 {
     use FixturesTrait;
+    use RecreateDatabaseTrait;
 
     protected const FORMAT = 'jsonld';
 
@@ -33,7 +35,6 @@ class TestBase extends WebTestCase
      */
     public function setUp()
     {
-        $this->resetDatabase();
 
         if (null === self::$client) {
             self::$client = static::createClient();
